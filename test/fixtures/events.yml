@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  datetime: 2025-12-16 10:11:24
+  venue: one
+  organizer: one
+
+two:
+  name: MyString
+  description: MyText
+  datetime: 2025-12-16 10:11:24
+  venue: two
+  organizer: two
