@@ -1,2 +1,40 @@
-<h1>Events#new</h1>
-<p>Find me in app/views/events/new.html.erb</p>
+<h1>"Create an event"</h1>
+
+<%= form_with model: @event do |f| %>
+    <%= f.label :name, "Name" %>
+    <%= f.text_field :name  %>
+
+    <%= f.label :description, "Description" %>
+    <%= f.text_area :description  %>
+
+    <%= f.label :datetime, "Date and Time" %>
+    <%= f.datetime_field :datetime  %>
+
+
+    <%= f.label :venue_id, "Choose an existing Venue" %>
+    <%# Prompt provides a blank option. If they pick this, we look at the new venue fields %>
+    <%= f.collection_select :venue_id, Venue.all, :id, :name, include_blank: "OR Create a New Venue below" %>
+
+    <%= fields_for :venue, @venue do |v| %>
+        <%= v.label :name, "Venue Name" %>
+        <%= v.text_field :name  %>
+
+        <%= v.label :address, "Venue Address" %>
+        <%= v.text_field :address  %>
+
+        <%= v.label :capacity, "Capacity" %>
+        <%= v.text_field :capacity  %>
+
+        <%= v.label :city, "City" %>
+        <%= v.text_field :city  %>
+    <%end%>
+
+    <%= f.submit "Create Event"%>
+<%end%>
+
+
+
+
+
+
+

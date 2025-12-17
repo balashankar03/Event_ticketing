@@ -1,2 +1,26 @@
-<h1>Participants#new</h1>
-<p>Find me in app/views/participants/new.html.erb</p>
+<h1>Participants Details</h1>
+
+<%= form_with model: @participant do |form| %>
+    <%= fields_for :user, @user do |user_form| %>
+        <%= user_form.label :name, "Name" %>
+        <%= user_form.text_field :name %>
+
+        <%= user_form.label :email, "Email" %>
+        <%= user_form.text_field :email %>
+
+        <%= user_form.label :phone, "Phone" %>
+        <%= user_form.text_field :phone %>
+    <%end%>
+
+    <%=form.label :date_of_birth, "DOB"%>
+    <%=form.date_field :date_of_birth%>
+
+    <%=form.label :city, "City"%>
+    <%=form.text_field :city%>
+
+    <%=form.label :gender, "Gender"%>
+    <%=form.text_field :gender%>
+
+    <%=form.submit "Register as Participant"%>
+
+<%end%>

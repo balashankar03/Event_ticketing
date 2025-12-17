@@ -1,2 +1,24 @@
-<h1>Organizers#new</h1>
-<p>Find me in app/views/organizers/new.html.erb</p>
+<h1>Organizers details</h1>
+
+<%= form_with model: @organizer do |form| %>
+    <%= fields_for :user, @user do |user_form| %>
+        <%= user_form.label :name, "Name" %>
+        <%= user_form.text_field :name %>
+
+        <%= user_form.label :email, "Email" %>
+        <%= user_form.text_field :email %>
+
+        <%= user_form.label :phone, "Phone" %>
+        <%= user_form.text_field :phone %>
+    <%end%>
+
+    <%=form.label :website, "Website"%>
+    <%=form.text_field :website%>
+
+    <%=form.label :address, "Address"%>
+    <%=form.text_field :address%>
+
+    <%=form.submit "Register as organizer"%>
+
+<%end%>
+

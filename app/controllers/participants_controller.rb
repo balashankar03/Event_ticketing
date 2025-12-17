@@ -1,14 +1,34 @@
 class ParticipantsController < ApplicationController
   def index
+    @participants=Participant.all
   end
 
   def show
+    
   end
 
   def new
+    @participant=Participant.new
+    @user=User.new
+
   end
 
   def create
+    @participant=Participant.new(participant_params)
+    @user=User.new(user_params)
+
+    @user.userable=@participant
+
+    if @participant.save && @user.save
+      session[:user_id]=@user.id
+      session[:role]="Participant"
+
+      redirect_to events_path
+    else
+      render :new, status: :unprocessable_entity
+    end
+
+
   end
 
   def edit
@@ -19,4 +39,15 @@ class ParticipantsController < ApplicationController
 
   def destroy
   end
+
+  private
+
+  def participant_params
+    params.require(:participant).permit(:date_of_birth, :city, :gender)
+  end
+  def user_params
+    params.require(:user).permit(:name,:email,:phone)
+  end
+
 end
+
