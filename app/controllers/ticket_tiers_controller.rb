@@ -1,5 +1,7 @@
 class TicketTiersController < ApplicationController
   def index
+    @ticket_tiers=TicketTier.where(event_id: params[:event_id])
+    
   end
 
   def show

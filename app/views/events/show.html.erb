@@ -1,7 +1,6 @@
 <h1>Event details</h1>
-
     <ul>
-    <li> <%= @event. %> </li>
+    <li> <%= @event.name %> </li>
     <li> <%= @event.description %> </li>
     <li> <%= @event.venue.name %> </li>
     <li> <%= @event.venue.city%> </li>
@@ -9,5 +8,7 @@
     <li> <%= @event.organizer.user.name %> </li>
     <li> <%= @event.datetime %> </li>
     <li> <%= @event.organizer.user.email %> </li>
-    <li> <%= @event.organizer.user.website %> </li>
+    <li> <%= @event.organizer.website %> </li>
+    <%= link_to "Book Ticket", event_ticket_tiers_path(@event), style: "display: block; text-align: center; background: #3498db; color: white; padding: 10px; border-radius: 4px; text-decoration: none; font-weight: bold;" %> 
+
     </ul>

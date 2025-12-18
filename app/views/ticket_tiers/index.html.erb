@@ -1,2 +1,25 @@
-<h1>TicketTiers#index</h1>
-<p>Find me in app/views/ticket_tiers/index.html.erb</p>
+<div>
+    <%= form_with url: book_ticket, method: :post do |f|%>
+    <h1 style="text-align: center;">Select Your Ticket</h1>
+    <label style="display: block; cursor: pointer; margin-bottom: 10px;">
+        <div>
+            <%=f.radio_button :ticket_tier_id, ticket_tier.id, style: "margin-right: 15px;"%>
+            <div>
+                <strong><%=ticket_tier.name%></strong>
+                <%=ticket_tier.price%>
+            </div>
+        </div>
+    </label>
+    
+
+    <div>
+        <div>
+            <%=f.label :quantity, "Total quantity"%>
+            <%=f.number_field :quantity, value: 1, min: 1, max: 10%>
+
+        </div>
+            <%=f.submit  "Book Selected Tickets"%>
+    </div>
+    <% end %>
+
+</div>

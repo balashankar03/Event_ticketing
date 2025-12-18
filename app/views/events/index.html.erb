@@ -1,8 +1,8 @@
 
 <h1>Events </h1>
-<div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
 <% @events.each do |event|%>
-    <div>
+    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); align-items: center; background-color: #f9f9f9; width: 20%;">
     <ul>
     <li> <%= event.name %> </li>
     <li> <%= event.description %> </li>

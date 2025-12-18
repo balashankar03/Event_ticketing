@@ -1,26 +1,41 @@
-<h1>Participants Details</h1>
+<div style="max-width: 400px; margin: 50px auto; padding: 30px; border: 1px solid #eee; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: sans-serif;">
+  
+  <h1 style="text-align: center; color: #333; margin-bottom: 25px; font-size: 1.5rem;">Participant Details</h1>
 
-<%= form_with model: @participant do |form| %>
+  <%= form_with model: @participant do |form| %>
     <%= fields_for :user, @user do |user_form| %>
-        <%= user_form.label :name, "Name" %>
-        <%= user_form.text_field :name %>
+      <div style="margin-bottom: 15px;">
+        <%= user_form.label :name, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+        <%= user_form.text_field :name, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+      </div>
 
-        <%= user_form.label :email, "Email" %>
-        <%= user_form.text_field :email %>
+      <div style="margin-bottom: 15px;">
+        <%= user_form.label :email, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+        <%= user_form.text_field :email, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+      </div>
 
-        <%= user_form.label :phone, "Phone" %>
-        <%= user_form.text_field :phone %>
-    <%end%>
+      <div style="margin-bottom: 15px;">
+        <%= user_form.label :phone, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+        <%= user_form.text_field :phone, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+      </div>
+    <% end %>
 
-    <%=form.label :date_of_birth, "DOB"%>
-    <%=form.date_field :date_of_birth%>
+    <div style="margin-bottom: 15px;">
+      <%= form.label :date_of_birth, "Date of Birth", style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+      <%= form.date_field :date_of_birth, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: sans-serif;" %>
+    </div>
 
-    <%=form.label :city, "City"%>
-    <%=form.text_field :city%>
+    <div style="margin-bottom: 15px;">
+      <%= form.label :city, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+      <%= form.text_field :city, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+    </div>
 
-    <%=form.label :gender, "Gender"%>
-    <%=form.text_field :gender%>
+    <div style="margin-bottom: 20px;">
+      <%= form.label :gender, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+      <%= form.text_field :gender, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+    </div>
 
-    <%=form.submit "Register as Participant"%>
+    <%= form.submit "Register as Participant", style: "width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;" %>
+  <% end %>
 
-<%end%>
+</div>

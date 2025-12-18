@@ -1,40 +1,57 @@
-<h1>"Create an event"</h1>
+<div style="max-width: 500px; margin: 40px auto; padding: 30px; border: 1px solid #eee; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: sans-serif; background-color: #fff;">
+  
+  <h1 style="text-align: center; color: #333; margin-bottom: 25px; font-size: 1.5rem;">Create New Event</h1>
 
-<%= form_with model: @event do |f| %>
-    <%= f.label :name, "Name" %>
-    <%= f.text_field :name  %>
+  <%= form_with model: @event do |f| %>
+    
+    <div style="margin-bottom: 15px;">
+      <%= f.label :name, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+      <%= f.text_field :name, style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+    </div>
 
-    <%= f.label :description, "Description" %>
-    <%= f.text_area :description  %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :description, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+      <%= f.text_area :description, rows: 3, style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: sans-serif;" %>
+    </div>
 
-    <%= f.label :datetime, "Date and Time" %>
-    <%= f.datetime_field :datetime  %>
+    <div style="margin-bottom: 25px;">
+      <%= f.label :datetime, "Date and Time", style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>
+      <%= f.datetime_field :datetime, style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: sans-serif;" %>
+    </div>
 
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px dashed #ccc; margin-bottom: 25px;">
+      <div style="margin-bottom: 15px;">
+        <%= f.label :venue_id, "Choose an existing Venue", style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; color: #555;" %>
+        <%= f.collection_select :venue_id, Venue.all, :id, :name, {include_blank: "OR Create a New Venue below"}, {style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;"} %>
+      </div>
 
-    <%= f.label :venue_id, "Choose an existing Venue" %>
-    <%# Prompt provides a blank option. If they pick this, we look at the new venue fields %>
-    <%= f.collection_select :venue_id, Venue.all, :id, :name, include_blank: "OR Create a New Venue below" %>
+      <p style="text-align: center; font-size: 0.8rem; color: #888; margin: 10px 0;">— OR —</p>
 
-    <%= fields_for :venue, @venue do |v| %>
-        <%= v.label :name, "Venue Name" %>
-        <%= v.text_field :name  %>
+      <%= fields_for :venue, @venue do |v| %>
+        <div style="margin-bottom: 10px;">
+          <%= v.label :name, "New Venue Name", style: "display: block; margin-bottom: 5px; font-size: 0.85rem;" %>
+          <%= v.text_field :name, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+        </div>
 
-        <%= v.label :address, "Venue Address" %>
-        <%= v.text_field :address  %>
+        <div style="margin-bottom: 10px;">
+          <%= v.label :address, style: "display: block; margin-bottom: 5px; font-size: 0.85rem;" %>
+          <%= v.text_field :address, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+        </div>
 
-        <%= v.label :capacity, "Capacity" %>
-        <%= v.text_field :capacity  %>
+        <div style="display: flex; gap: 10px;">
+          <div style="flex: 1;">
+            <%= v.label :capacity, style: "display: block; margin-bottom: 5px; font-size: 0.85rem;" %>
+            <%= v.text_field :capacity, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+          </div>
+          <div style="flex: 1;">
+            <%= v.label :city, style: "display: block; margin-bottom: 5px; font-size: 0.85rem;" %>
+            <%= v.text_field :city, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
-        <%= v.label :city, "City" %>
-        <%= v.text_field :city  %>
-    <%end%>
+    <%= f.submit "Create Event", style: "width: 100%; padding: 14px; background-color: #27ae60; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer;" %>
+  <% end %>
 
-    <%= f.submit "Create Event"%>
-<%end%>
-
-
-
-
-
-
-
+</div>

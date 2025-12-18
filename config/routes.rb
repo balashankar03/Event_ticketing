@@ -10,7 +10,11 @@ Rails.application.routes.draw do
   resources :participants
   resources :organizers
   resources :orders
-  resources :events
+  resources :events do
+    resources :ticket_tiers, only: [:index]
+    resources :bookings, only: [:create] # Add this
+  end
+  
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
