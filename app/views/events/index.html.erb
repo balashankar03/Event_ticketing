@@ -1,17 +1,37 @@
+<h1>Events</h1>
 
-<h1>Events </h1>
-<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-<% @events.each do |event|%>
-    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); align-items: center; background-color: #f9f9f9; width: 20%;">
-    <ul>
-    <li> <%= event.name %> </li>
-    <li> <%= event.description %> </li>
-    <li> <%= event.venue.name %> </li>
-    <li> <%= event.venue.city%> </li>
-    <li> <%= event.venue.address %> </li>
-    <li> <%= event.organizer.user.name %> </li>
-    <li> <%= event.datetime %> </li>
-<%= link_to "View Details & Book", event_path(event), style: "display: block; text-align: center; background: #3498db; color: white; padding: 10px; border-radius: 4px; text-decoration: none; font-weight: bold;" %>    </ul>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  <% @events.each do |event| %>
+    <div style="width: 280px; border: 1px solid #ddd; border-radius: 8px; background: #fff; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
+      
+      <%# Event Image Placeholder or Actual Image %>
+      <div style="height: 150px; background: #eee; display: flex; align-items: center; justify-content: center;">
+        <% if event.image.attached? %>
+          <%= image_tag event.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
+        <% else %>
+          <span style="color: #999;">No Image</span>
+        <% end %>
+      </div>
+
+      <div style="padding: 15px; flex-grow: 1;">
+        <div style="font-weight: bold; font-size: 1.2rem; margin-bottom: 5px;"><%= event.name %></div>
+        <div style="color: #666; font-size: 0.9rem; margin-bottom: 10px;"><%= event.description.truncate(80) %></div>
+        
+        <div style="font-size: 0.85rem; color: #444;">
+          <strong>Location:</strong> <%= event.venue.name %>, <%= event.venue.city %>
+        </div>
+        
+        <div style="font-size: 0.85rem; color: #444; margin-top: 4px;">
+          <strong>Date:</strong> <%= event.datetime.strftime("%B %d, %Y at %I:%M %p") %>
+        </div>
+
+        <div style="font-size: 0.85rem; color: #888; margin-top: 8px;">
+          Hosted by <%= event.organizer.user.name %>
+        </div>
+      </div>
+
+      <%= link_to "View Details & Book", event_path(event), 
+          style: "display: block; text-align: center; background: #3498db; color: white; padding: 12px; text-decoration: none; font-weight: bold;" %>
     </div>
-    <%end%>
+  <% end %>
 </div>

@@ -24,7 +24,11 @@
         <%= f.label :venue_id, "Choose an existing Venue", style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; color: #555;" %>
         <%= f.collection_select :venue_id, Venue.all, :id, :name, {include_blank: "OR Create a New Venue below"}, {style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;"} %>
       </div>
-
+    
+    <div style="margin-bottom: 15px;">
+        <%= f.label :image, "Event Banner Image" %>
+        <%= f.file_field :image, accept: 'image/png,image/gif,image/jpeg', style: "display: block;" %>
+      </div>
       <p style="text-align: center; font-size: 0.8rem; color: #888; margin: 10px 0;">— OR —</p>
 
       <%= fields_for :venue, @venue do |v| %>
@@ -48,6 +52,7 @@
             <%= v.text_field :city, style: "width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
           </div>
         </div>
+
       <% end %>
     </div>
 

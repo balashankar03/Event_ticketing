@@ -6,10 +6,14 @@ class Event < ApplicationRecord
   has_many :tickets, through: :ticket_tiers
   has_and_belongs_to_many :categories
 
+  has_one_attached :image
+
   validates :name, presence: true, length: { minimum: 5 }
   validates :description, presence: true
   validates :datetime, presence: true
   validate :event_date_cannot_be_in_the_past
+
+  validates :image, presence: true
 
 
   private

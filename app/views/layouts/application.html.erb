@@ -18,6 +18,12 @@
   </head>
 
   <body>
-    <%= yield %>
+
+  <% flash.each do |type, msg| %>
+    <div style="padding: 10px; margin: 10px; border-radius: 5px; background: <%= type == 'alert' ? '#f8d7da' : '#d4edda' %>; color: <%= type == 'alert' ? '#721c24' : '#155724' %>;">
+    <%= msg %>
+    </div>
+    <% end %>
+  <%= yield %>
   </body>
 </html>

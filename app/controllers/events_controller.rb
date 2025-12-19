@@ -33,7 +33,7 @@ class EventsController < ApplicationController
     end
 
     if @event.save
-      redirect_to @event, notice: "Event created successfully!"
+      redirect_to new_event_ticket_tier_path(@event), notice: "Event created successfully!"
     else
       @venue ||= Venue.new
       render :new, status: :unprocessable_entity
@@ -61,7 +61,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:name, :description, :venue_id, :datetime)
+    params.require(:event).permit(:name, :description, :venue_id, :datetime, :image)
   end
 
   def venue_params

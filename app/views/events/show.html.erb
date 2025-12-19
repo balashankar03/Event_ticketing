@@ -1,14 +1,49 @@
-<h1>Event details</h1>
-    <ul>
-    <li> <%= @event.name %> </li>
-    <li> <%= @event.description %> </li>
-    <li> <%= @event.venue.name %> </li>
-    <li> <%= @event.venue.city%> </li>
-    <li> <%= @event.venue.address %> </li>
-    <li> <%= @event.organizer.user.name %> </li>
-    <li> <%= @event.datetime %> </li>
-    <li> <%= @event.organizer.user.email %> </li>
-    <li> <%= @event.organizer.website %> </li>
-    <%= link_to "Book Ticket", event_ticket_tiers_path(@event), style: "display: block; text-align: center; background: #3498db; color: white; padding: 10px; border-radius: 4px; text-decoration: none; font-weight: bold;" %> 
+<div style="max-width: 800px; margin: 0 auto; font-family: sans-serif; padding: 20px;">
+  
+  <h1 style="text-align: center; color: #333;"><%= @event.name %></h1>
 
-    </ul>
+  <%# 1. Event Image Section %>
+  <div style="width: 100%; height: 400px; background: #eee; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <% if @event.image.attached? %>
+      <%= image_tag @event.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
+    <% else %>
+      <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">
+        No Image Available
+      </div>
+    <% end %>
+  </div>
+
+  <%# 2. Event Info Section %>
+  <div style="background: #fff; border: 1px solid #ddd; border-radius: 12px; padding: 30px; line-height: 1.6;">
+    
+    <div style="font-size: 1.2rem; color: #555; margin-bottom: 15px;">
+      <%= @event.description %>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+      <div>
+        <h3 style="margin-bottom: 5px; color: #3498db;">Location</h3>
+        <div><strong><%= @event.venue.name %></strong></div>
+        <div style="color: #666;"><%= @event.venue.address %>, <%= @event.venue.city %></div>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom: 5px; color: #3498db;">Date & Time</h3>
+        <div><%= @event.datetime.strftime("%A, %B %d, %Y") %></div>
+        <div style="color: #666;"><%= @event.datetime.strftime("%I:%M %p") %></div>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid #eee; padding-top: 20px; margin-bottom: 30px;">
+      <h3 style="margin-bottom: 5px; color: #3498db;">Organizer Details</h3>
+      <div><strong><%= @event.organizer.user.name %></strong></div>
+      <div style="font-size: 0.9rem; color: #666;">
+        Email: <%= @event.organizer.user.email %><br>
+        Website: <%= link_to @event.organizer.website, @event.organizer.website, target: "_blank", style: "color: #3498db;" %>
+      </div>
+    </div>
+
+    <%= link_to "Book Ticket", event_ticket_tiers_path(@event), 
+        style: "display: block; text-align: center; background: #3498db; color: white; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: background 0.3s;" %>
+  </div>
+</div>
