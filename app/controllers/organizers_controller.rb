@@ -19,7 +19,7 @@ class OrganizersController < ApplicationController
 
     if @organizer.save && @user.save
       session[:user_id]=@user.id
-      session[:role]="Organizer"
+      session[:role]="organizer"
       redirect_to new_event_path
     else
       render :new, status: :unprocessable_entity

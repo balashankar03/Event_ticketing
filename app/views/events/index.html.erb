@@ -1,6 +1,5 @@
-<h1>Events</h1>
 
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;margin-top: 30px;">
   <% @events.each do |event| %>
     <div style="width: 280px; border: 1px solid #ddd; border-radius: 8px; background: #fff; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
       
@@ -29,9 +28,13 @@
           Hosted by <%= event.organizer.user.name %>
         </div>
       </div>
-
+      <% if participant_logged_in? %>
       <%= link_to "View Details & Book", event_path(event), 
           style: "display: block; text-align: center; background: #3498db; color: white; padding: 12px; text-decoration: none; font-weight: bold;" %>
+      <% else %>
+        <%= link_to "View Details & Book", new_participant_path(event_id: event.id), 
+          style: "display: block; text-align: center; background: #3498db; color: white; padding: 12px; text-decoration: none; font-weight: bold;" %>
+      <% end %>
     </div>
   <% end %>
 </div>

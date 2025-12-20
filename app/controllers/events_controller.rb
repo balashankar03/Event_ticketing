@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_action :require_organizer, only: [:new, :create]
+
   def index
     @events=Event.all
   end
@@ -11,8 +12,7 @@ class EventsController < ApplicationController
   def new
     @event=Event.new
     @venue=Venue.new
-
-
+    3.times { @event.ticket_tiers.build }
   end
 
   def create
@@ -33,7 +33,7 @@ class EventsController < ApplicationController
     end
 
     if @event.save
-      redirect_to new_event_ticket_tier_path(@event), notice: "Event created successfully!"
+      redirect_to event_path(@event), notice: "Event created successfully!"
     else
       @venue ||= Venue.new
       render :new, status: :unprocessable_entity
@@ -55,13 +55,13 @@ class EventsController < ApplicationController
 
   private
   def require_organizer
-    unless session[:user_id] && session[:role]
+    unless session[:user_id] && session[:role]=="organizer"
       redirect_to root_path, alert: "Only organizers can schedule an event"
     end
   end
 
   def event_params
-    params.require(:event).permit(:name, :description, :venue_id, :datetime, :image)
+    params.require(:event).permit(:name, :description, :venue_id, :datetime, :image, ticket_tiers_attributes: [:name, :price, :remaining, :_destroy], category_ids: [])
   end
 
   def venue_params

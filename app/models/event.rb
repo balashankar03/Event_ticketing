@@ -13,7 +13,8 @@ class Event < ApplicationRecord
   validates :datetime, presence: true
   validate :event_date_cannot_be_in_the_past
 
-  validates :image, presence: true
+  accepts_nested_attributes_for :ticket_tiers, allow_destroy: true, reject_if: :all_blank
+
 
 
   private

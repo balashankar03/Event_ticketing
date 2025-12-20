@@ -24,6 +24,20 @@
     <%= msg %>
     </div>
     <% end %>
+  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background-color: #ffffff; border-bottom: 1px solid #eaeaea; box-shadow: 0 2px 4px rgba(0,0,0,0.02); font-family: sans-serif;">
+  
+  <div style="font-size: 1.5rem; font-weight: 800; color: #2d3436; letter-spacing: -1px;">
+    <%= link_to "EventPass", root_path, style: "text-decoration: none; color: inherit;" %>
+  </div>
+
+  <div style="display: flex; gap: 25px; align-items: center;">
+    <%= link_to "Home", root_path, style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
+    
+    <%= link_to "Book a Ticket", new_participant_path, style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
+
+    <%= link_to "Organize an Event", new_organizer_path, style: "text-decoration: none; background-color: #0984e3; color: white; padding: 8px 18px; border-radius: 6px; font-weight: 600; font-size: 0.9rem;" %>
+  </div>
+</nav>
   <%= yield %>
   </body>
 </html>

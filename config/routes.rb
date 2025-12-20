@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root "landing#index"
+  root "events#index"
   
   resources :categories
   resources :venues
