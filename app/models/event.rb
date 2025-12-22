@@ -1,12 +1,13 @@
 class Event < ApplicationRecord
   belongs_to :venue
   belongs_to :organizer
-  has_many :ticket_tiers
-  has_many :orders
+  has_many :ticket_tiers, dependent: :destroy
+  has_many :orders, dependent: :destroy
   has_many :tickets, through: :ticket_tiers
   has_and_belongs_to_many :categories
 
   has_one_attached :image
+  
 
   validates :name, presence: true, length: { minimum: 5 }
   validates :description, presence: true

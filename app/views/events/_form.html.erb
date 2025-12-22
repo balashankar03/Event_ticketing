@@ -3,6 +3,16 @@
   <h1 style="text-align: center; color: #1a1a1a; margin-bottom: 30px; font-size: 1.75rem; font-weight: 800; letter-spacing: -0.5px;"> <%= event.persisted? ? "Edit Event" : "Create New Event" %></h1>
 
   <%= form_with model: event do |f| %>
+    <% if event.errors.any? %>
+    <div id="error_explanation" style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 20px;">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <ul>
+        <% event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
     
     <section style="margin-bottom: 30px;">
       <div style="margin-bottom: 20px;">

@@ -8,8 +8,6 @@ class OrdersController < ApplicationController
     @tickets=@order.tickets
 
 
-
-
   end
 
   def new

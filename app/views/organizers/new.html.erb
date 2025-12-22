@@ -3,6 +3,24 @@
   <h1 style="text-align: center; color: #333; margin-bottom: 25px; font-size: 1.5rem;">Organizer Details</h1>
 
   <%= form_with model: @organizer do |form| %>
+
+  <% if @organizer.errors.any? || @user.errors.any? %>
+      <div style="background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem;">
+        <p style="margin: 0 0 10px 0; font-weight: bold;">Please fix the following:</p>
+        <ul style="margin: 0; padding-left: 20px;">
+
+          <% @organizer.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          
+
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+   
     <%= fields_for :user, @user do |user_form| %>
       <div style="margin-bottom: 15px;">
         <%= user_form.label :name, style: "display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;" %>

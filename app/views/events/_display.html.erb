@@ -2,7 +2,7 @@
   
     <div style="width: 280px; border: 1px solid #ddd; border-radius: 8px; background: #fff; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
       
-      <%# Event Image Placeholder or Actual Image %>
+      
       <div style="height: 150px; background: #eee; display: flex; align-items: center; justify-content: center;">
         <% if event.image.attached? %>
           <%= image_tag event.image, style: "width: 100%; height: 100%; object-fit: cover;" %>
@@ -32,7 +32,7 @@
  <% if local_assigns[:show_controls] %>
   <div style="display: flex; gap: 10px; padding: 15px; border-top: 1px solid #eee; background: #fafafa;">
     
-    <%# Edit Button - Soft Orange with Rounded Corners %>
+   
     <%= link_to edit_event_path(event), 
         style: "flex: 1; text-align: center; padding: 10px 5px; background: #ff9f43; color: white; 
                 text-decoration: none; font-size: 0.85rem; font-weight: 600; border-radius: 6px; 
@@ -40,10 +40,9 @@
       <span>Edit</span>
     <% end %>
 
-    <%# Delete Button - Soft Red with Rounded Corners %>
     <%= button_to event_path(event), method: :delete, 
         data: { confirm: "Are you sure?" },
-        form_class: "flex-1", # Ensures the form takes up half the space
+        form_class: "flex-1",
         style: "width: 100%; text-align: center; padding: 10px 5px; background: #ee5253; color: white; 
                 border: none; cursor: pointer; font-size: 0.85rem; font-weight: 600; border-radius: 6px; 
                 transition: all 0.2s; box-shadow: 0 2px 4px rgba(238, 82, 83, 0.2);" do %>
@@ -53,7 +52,7 @@
   </div>
 <% end %>
 
-<%# View Details Button - Solid Blue with Full Width %>
+
 <div style="padding: 0 15px 15px 15px;">
   <% link_url = participant_logged_in? ? event_path(event) : new_participant_path(event_id: event.id) %>
   <%= link_to link_url, 
