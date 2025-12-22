@@ -1,6 +1,6 @@
 class TicketTier < ApplicationRecord
   belongs_to :event
-  has_many :tickets
+  has_many :tickets, dependent: :destroy
 
   before_create :set_default_availability
 
