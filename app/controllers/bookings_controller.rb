@@ -26,13 +26,12 @@ class BookingsController <ApplicationController
         
         @ticket_tier.update!(remaining: @ticket_tier.remaining- quantity)
         end
-        @ticket_tier=TicketTier.find(params[:ticket_tier_id])
 
         redirect_to order_path(@order)
 
         rescue => e
         puts "!!! BOOKING ERROR: #{e.message}"
-        redirect_to event_ticket_tiers_path(@event), alert: "Booking failed: #{e.message}"
+        redirect_to events_path, alert: "Booking failed: #{e.message}"
         end
 
     end

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :orders
   resources :events do
     resources :ticket_tiers, only: [:index, :create, :update, :new]
-    resources :bookings, only: [:create] # Add this
+    resources :bookings, only: [:create]
   end
   
 

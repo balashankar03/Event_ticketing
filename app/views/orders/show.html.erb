@@ -1,2 +1,71 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<div style="max-width: 800px; margin: 40px auto; font-family: sans-serif; color: #333;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #eee; margin-bottom: 20px;">
+    <h1 style="margin: 0;">Order Summary</h1>
+    <span style="color: #666;">Order #<%= @order.id %></span>
+  </div>
+
+  <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e1e4e8; margin-bottom: 30px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div>
+        <div style="font-size: 0.8rem; color: #7f8c8d; text-transform: uppercase;">Event</div>
+        <div style="font-size: 1.1rem; font-weight: bold;"><%= @order.event.name %></div>
+        <div style="font-size: 0.9rem; color: #444;"><%= @order.event.datetime.strftime("%B %d, %Y at %I:%M %p") %></div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 0.8rem; color: #7f8c8d; text-transform: uppercase;">Purchased By</div>
+        <div style="font-weight: 500;"><%= @order.participant.user.name %></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom: 15px;">Your Tickets</h3>
+  
+  <div style="border: 1px solid #eee; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="background: #2c3e50; color: white;">
+          <th style="padding: 12px 15px;">Serial No</th>
+          <th style="padding: 12px 15px;">Type</th>
+          <th style="padding: 12px 15px;">Seat Info</th>
+          <th style="padding: 12px 15px; text-align: center;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.tickets.each do |ticket| %>
+          <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 15px; font-family: monospace; font-size: 1rem; color: #e67e22;">
+              <%= ticket.serial_no %>
+            </td>
+            <td style="padding: 15px;">
+              <span style="background: #ebf5ff; color: #007bff; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold;">
+                <%= ticket.ticket_tier.name %>
+              </span>
+            </td>
+            <td style="padding: 15px; color: #444;">
+              <%= ticket.seat_info.presence || "General Admission" %>
+            </td>
+            <td style="padding: 15px; text-align: center;">
+              <span style="color: #27ae60;">● Valid</span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr style="background: #fdfdfe;">
+          <td colspan="2" style="padding: 15px; text-align: right; font-weight: bold; color: #7f8c8d;">Total Paid:</td>
+          <td colspan="2" style="padding: 15px; font-size: 1.2rem; font-weight: bold; color: #2ecc71; text-align: center;">
+            <%= number_to_currency(@order.amount) %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+    <%= link_to "← Home", event_path, style: "color: #3498db; text-decoration: none;" %>
+    <button onclick="window.print()" style="background: none; border: 1px solid #ccc; padding: 5px 15px; border-radius: 4px; cursor: pointer; color: #666;">
+      Print Receipt
+    </button>
+  </div>
+</div>

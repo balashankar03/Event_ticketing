@@ -1,2 +1,9 @@
-<h1>Organizers#show</h1>
-<p>Find me in app/views/organizers/show.html.erb</p>
+<h1><%= @organizer.user.name %>'s Events</h1>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px;">
+      <% if @events.any? %>
+    <%= render partial: "events/display", collection: @events, as: :event, locals: { show_controls: true } %>
+  <% else %>
+    <p>This organizer hasn't scheduled any events yet.</p>
+  <% end %>
+</div>

@@ -3,6 +3,13 @@ class OrdersController < ApplicationController
   end
 
   def show
+    @order=Order.find(params[:id])
+
+    @tickets=@order.tickets
+
+
+
+
   end
 
   def new

@@ -7,11 +7,9 @@
       
       <% @ticket_tiers.each do |ticket_tier| %>
         <label style="display: block; cursor: pointer; margin-bottom: 12px; position: relative;">
-          <%# 1. Radio button is now invisible and positioned absolutely %>
           <%= f.radio_button :ticket_tier_id, ticket_tier.id, 
               style: "position: absolute; opacity: 0;" %>
           
-          <%# 2. This div acts as the visible "Card" %>
           <div style="padding: 15px; border: 2px solid #ddd; border-radius: 8px; transition: 0.2s; text-align: center;" 
                onclick="this.parentElement.parentElement.querySelectorAll('label div').forEach(d => d.style.borderColor='#ddd'); this.style.borderColor='#27ae60';">
               <strong style="display: block; font-size: 1.1rem;"><%= ticket_tier.name %></strong>
