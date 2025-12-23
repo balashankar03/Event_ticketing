@@ -1,12 +1,13 @@
 class EventsController < ApplicationController
   before_action :require_organizer, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy]
+
 
   def index
     @events=Event.all
   end
 
   def show
-    @event=Event.find(params[:id])
   end
 
   def new
@@ -42,14 +43,12 @@ class EventsController < ApplicationController
   end
 
   def edit
-  @event = Event.find(params[:id])
   @venue = @event.venue || Venue.new
   3.times {@event.ticket_tiers.build if @event.ticket_tiers.empty?}
 
   end
 
   def update
-    @event = Event.find(params[:id])
 
     if params[:event][:venue_id].present?
       @event.venue_id=params[:event][:venue_id]
@@ -72,7 +71,6 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find(params[:id])
     @event.destroy
     redirect_to events_path, notice: "Event deleted successfully!"
 
@@ -82,6 +80,13 @@ class EventsController < ApplicationController
   def require_organizer
     unless session[:user_id] && session[:role]=="organizer"
       redirect_to root_path, alert: "Only organizers can schedule an event"
+    end
+  end
+
+  def set_event
+    @event =Event.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to events_path, alert: "Event not fount"
     end
   end
 
