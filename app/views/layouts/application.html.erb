@@ -24,6 +24,8 @@
     <%= msg %>
     </div>
     <% end %>
+
+
   <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background-color: #ffffff; border-bottom: 1px solid #eaeaea; box-shadow: 0 2px 4px rgba(0,0,0,0.02); font-family: sans-serif;">
   
   <div style="font-size: 1.5rem; font-weight: 800; color: #2d3436; letter-spacing: -1px;">
@@ -31,12 +33,21 @@
   </div>
 
   <div style="display: flex; gap: 25px; align-items: center;">
-    <%= link_to "Home", root_path, style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
-    
-    <%= link_to "Book a Ticket", new_participant_path, style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
 
-    <%= link_to "Organize an Event", new_organizer_path, style: "text-decoration: none; background-color: #0984e3; color: white; padding: 8px 18px; border-radius: 6px; font-weight: 600; font-size: 0.9rem;" %>
-  </div>
+    <% if current_user %>
+      <% if current_user.organizer? %>
+        <%= link_to "My events", organizer_path(current_user.userable), style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
+        <%= link_to "Create Event", new_event_path, style: "text-decoration: none; background-color: #0984e3; color: white; padding: 8px 18px; border-radius: 6px; font-weight: 600; font-size: 0.9rem;" %>
+      <% elsif current_user.participant? %>
+        <%= link_to "My Orders", participant_orders_path(current_user.userable), style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
+      <% end %>
+      <span style="font-size: 0.9rem; color: #2d3436;">Hello, <strong><%= current_user.name %></strong></span>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, style: "background: #d63031; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600;" %>
+    <% else %>
+      <%= link_to "Login", new_user_session_path, style: "text-decoration: none; color: #0984e3; font-weight: 500; font-size: 0.95rem;" %>
+      <%= link_to "Sign Up", landing_path, style: "text-decoration: none; background-color: #00b894; color: white; padding: 8px 18px; border-radius: 6px; font-weight: 600; font-size: 0.9rem;" %>
+    <% end %> 
+
 </nav>
   <%= yield %>
   </body>

@@ -27,7 +27,7 @@ class BookingsController <ApplicationController
         @ticket_tier.update!(remaining: @ticket_tier.remaining- quantity)
         end
 
-        redirect_to order_path(@order)
+        redirect_to order_path(@order, amount: @amount)
 
         rescue => e
         puts "!!! BOOKING ERROR: #{e.message}"
@@ -41,22 +41,29 @@ class BookingsController <ApplicationController
         @event=Event.find(params[:event_id])
         rescue ActiveRecord::RecordNotFound
             redirect_to events_path, alert: "Event not found"
+            return
+            
     end
 
     def set_ticket_tier
         @ticket_tier=TicketTier.find(params[:ticket_tier_id])
         rescue ActiveRecord::RecordNotFound
             redirect_to event_path(@event), alert: "Ticket tier not found"
+            return
+            
     end
     def require_participant
-        @user=User.find(session[:user_id])
-        unless @user.userable_type.downcase=="participant"
-            redirect_to root_path, alert: "Only participants can book tickets"
+        if current_user.nil?
+            redirect_to new_user_session_path, alert: "You must be logged in to book tickets."
             return
         end
-        @participant = @user.userable
-        rescue ActiveRecord::RecordNotFound
-            redirect_to root_path, alert: "Please log in"
+
+        if current_user.userable_type.downcase != "participant"
+            redirect_to root_path, alert: "Only participants can book tickets."
+            return
+        else
+            @participant=current_user.userable
+        end
     end
 
 

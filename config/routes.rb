@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  
+   devise_scope :user do
+    get "signup/organizer", to: "users/registrations#new" , as: :new_organizer_registration, type: "Organizer"
+    get "signup/participant", to: "users/registrations#new" , as: :new_participant_registration, type: "Participant"
+  end
+
+  devise_for :users, controllers: {registrations: 'users/registrations'}
 
   root "events#index"
+  get 'landing', to: 'landings#index', as: :landing
   
   resources :categories
   resources :venues
@@ -14,7 +24,10 @@ Rails.application.routes.draw do
     resources :ticket_tiers, only: [:index, :create, :update, :new]
     resources :bookings, only: [:create]
   end
-  
+
+  resources :participants do
+    resources :orders, only: [:index, :show]
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

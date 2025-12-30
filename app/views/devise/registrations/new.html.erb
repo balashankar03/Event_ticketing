@@ -1,0 +1,78 @@
+<%# app/views/devise/registrations/new.html.erb %>
+
+<div style="max-width: 450px; margin: 40px auto; padding: 30px; border: 1px solid #eee; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fff;">
+  
+  <h1 style="text-align: center; color: #2c3e50; margin-bottom: 10px; font-size: 1.6rem;">
+    Create <%= resource.userable_type %> Account
+  </h1>
+  <p style="text-align: center; color: #7f8c8d; font-size: 0.9rem; margin-bottom: 25px;">
+    Join our community as a <%= resource.userable_type.downcase %>
+  </p>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%# --- USER FIELDS (Common to both) --- %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :name, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+      <%= f.text_field :name, autofocus: true, placeholder: "John Doe", style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <%= f.label :email, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+      <%= f.email_field :email, placeholder: "email@example.com", style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <%= f.label :password, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+      <%= f.password_field :password, autocomplete: "new-password", style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+      <% if @minimum_password_length %>
+        <small style="color: #95a5a6; font-size: 0.75rem;">(<%= @minimum_password_length %> characters minimum)</small>
+      <% end %>
+    </div>
+
+    <%# --- DYNAMIC NESTED FIELDS (Organizer vs Participant) --- %>
+    <%= f.hidden_field :userable_type %>
+
+    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #eee;">
+      <%= f.fields_for :userable do |pf| %>
+        
+        <% if resource.userable_type == 'Organizer' %>
+          <div style="margin-bottom: 15px;">
+            <%= pf.label :website, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+            <%= pf.url_field :website, placeholder: "https://yourcompany.com", style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <%= pf.label :address, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+            <%= pf.text_field :address, placeholder: "123 Business St.", style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+          </div>
+          
+          <%= f.submit "Register as Organizer", style: "width: 100%; padding: 12px; background-color: #2c3e50; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: background 0.3s;" %>
+
+        <% else %>
+          <div style="margin-bottom: 15px;">
+            <%= pf.label :date_of_birth, "Date of Birth", style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+            <%= pf.date_field :date_of_birth, style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+          </div>
+
+          <div style="margin-bottom: 15px;">
+            <%= pf.label :city, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+            <%= pf.text_field :city, style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box;" %>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <%= pf.label :gender, style: "display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #34495e;" %>
+            <%= pf.select :gender, ["Male", "Female", "Other"], { prompt: "Select Gender" }, style: "width: 100%; padding: 10px; border: 1px solid #dfe6e9; border-radius: 6px; background-color: white;" %>
+          </div>
+
+          <%= f.submit "Register as Participant", style: "width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: background 0.3s;" %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div style="margin-top: 20px; text-align: center;">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

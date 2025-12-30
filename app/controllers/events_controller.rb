@@ -80,6 +80,7 @@ class EventsController < ApplicationController
   def require_organizer
     unless session[:user_id] && session[:role]=="organizer"
       redirect_to root_path, alert: "Only organizers can schedule an event"
+      return
     end
   end
 
@@ -87,7 +88,7 @@ class EventsController < ApplicationController
     @event =Event.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       redirect_to events_path, alert: "Event not fount"
-    end
+      return
   end
 
   def event_params

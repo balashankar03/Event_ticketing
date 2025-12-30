@@ -16,7 +16,13 @@ class Event < ApplicationRecord
 
   accepts_nested_attributes_for :ticket_tiers, allow_destroy: true, reject_if: :all_blank
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["id", "name", "datetime", "created_at", "updated_at", "description", "organizer_id", "venue_id"]
+  end
 
+  def self.ransackable_associations(auth_object = nil)
+    ["categories", "image_attachment", "image_blob", "orders", "organizer", "ticket_tiers", "tickets", "venue"]
+  end
 
   private
   def event_date_cannot_be_in_the_past
