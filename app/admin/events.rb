@@ -2,6 +2,15 @@ ActiveAdmin.register Event do
 
 permit_params :name, :description, :datetime, :organizer_id, :venue_id, :image, category_ids: [], ticket_tiers_attributes: [:id, :name, :price, :remaining, :_destroy]
 
+scope :this_week do |events|
+  events.where(datetime: Time.current.beginning_of_week..Time.current.end_of_week)
+end
+
+scope :this_month do |events|
+  events.where(datetime: Time.current.beginning_of_month..Time.current.end_of_month)
+end
+
+
 index do
   selectable_column
   id_column

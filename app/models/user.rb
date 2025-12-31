@@ -13,7 +13,7 @@ class User < ApplicationRecord
   before_save :downcase_email
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "name", "email", "created_at", "updated_at", "userable_type", "userable_id"]
+    ["id", "name", "email", "phone", "created_at", "updated_at", "userable_type", "userable_id"]
   end
 
   def self.ransackable_associations(auth_object = nil)

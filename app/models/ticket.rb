@@ -7,7 +7,13 @@ class Ticket < ApplicationRecord
   
   validates :serial_no, presence: true, uniqueness: true
 
-  
+  def self.ransackable_attributes(auth_object = nil)
+    ["id","order_id","ticket_tier_id", "serial_no", "seat_info", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["order", "ticket_tier", "event"]
+  end
 
   private
   def get_serial_no

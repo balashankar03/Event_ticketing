@@ -6,6 +6,14 @@ class TicketTier < ApplicationRecord
 
   before_save :update_availability_status
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["id", "name", "price", "remaining", "available", "event_id", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["event", "tickets"]
+  end
+
 private
 
   def update_availability_status
