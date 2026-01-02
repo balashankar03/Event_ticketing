@@ -16,6 +16,17 @@ class Event < ApplicationRecord
 
   accepts_nested_attributes_for :ticket_tiers, allow_destroy: true, reject_if: :all_blank
 
+
+  def self.search(query)
+    if query.present?
+      where("name ILIKE ?","%#{query}%")
+    else
+      all
+    end
+  end
+
+
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "name", "datetime", "created_at", "updated_at", "description", "organizer_id", "venue_id"]
   end

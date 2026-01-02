@@ -32,6 +32,36 @@
     <%= link_to "EventSphere", root_path, style: "text-decoration: none; color: inherit;" %>
   </div>
 
+  <div style="flex-grow: 1; max-width: 400px; margin: 0 30px;">
+  <%# Changed flex-direction to row %>
+  <%= form_with url: events_path, method: :get, local: true, style: "display: flex; width: 100%; flex-direction: row; align-items: stretch;" do |f| %>
+    
+    <%= f.text_field :query, 
+        value: params[:query], 
+        placeholder: "Search events...", 
+        style: "flex-grow: 1; 
+               padding: 8px 15px; 
+               border: 1px solid #dfe6e9; 
+               border-radius:10px;
+               outline: none; 
+               font-size: 0.9rem; 
+               margin: 0;" %>
+
+    <%= f.submit "Search", 
+        style: "background-color: #f1f2f6; 
+               border: 1px solid #dfe6e9; 
+               border-left: none; 
+               padding: 5 20px; 
+               border-radius: 0 6px 6px 0; 
+               cursor: pointer; 
+               color: #eef6f9ff; 
+               font-weight: 600; 
+               font-size: 0.85rem; 
+               margin: 0;
+               white-space: nowrap;" %>
+  <% end %>
+</div>
+
   <div style="display: flex; gap: 25px; align-items: center;">
 
     <% if current_user %>

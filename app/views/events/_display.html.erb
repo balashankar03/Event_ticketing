@@ -54,12 +54,12 @@
 
 
 <div style="padding: 0 15px 15px 15px;">
-  <% link_url = participant_logged_in? ? event_path(event) : new_participant_path(event_id: event.id) %>
+  <% link_url = user_signed_in? ? event_path(event) : new_user_session_path  %>
   <%= link_to link_url, 
       style: "display: block; text-align: center; background: #2e86de; color: white; padding: 12px; 
               text-decoration: none; font-weight: bold; border-radius: 8px; font-size: 0.9rem;
               box-shadow: 0 4px 6px rgba(46, 134, 222, 0.15);" do %>
-    View Details & Book
+    <%= participant_logged_in? ? "Book Tickets" : "View Details" %>
   <% end %>
 </div>
 

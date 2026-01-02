@@ -43,7 +43,9 @@
       </div>
     </div>
 
+    <%if current_user&.participant? %>
     <%= link_to "Book Ticket", event_ticket_tiers_path(@event), 
         style: "display: block; text-align: center; background: #3498db; color: white; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: background 0.3s;" %>
+    <% end %>
   </div>
 </div>

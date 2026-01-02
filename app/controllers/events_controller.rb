@@ -4,7 +4,11 @@ class EventsController < ApplicationController
 
 
   def index
-    @events=Event.all
+    if params[:query].present?
+      @events=Event.search(params[:query]).order(datetime: :asc)
+    else
+      @events=Event.all.order(datetime: :asc)
+    end
   end
 
   def show
@@ -78,7 +82,7 @@ class EventsController < ApplicationController
 
   private
   def require_organizer
-    unless session[:user_id] && session[:role]=="organizer"
+    unless current_user&.organizer?
       redirect_to root_path, alert: "Only organizers can schedule an event"
       return
     end
