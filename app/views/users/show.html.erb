@@ -1,2 +1,54 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="profile-card">
+  <div class="profile-header">
+    <div class="avatar-container">
+      <% if @user.profile_picture.attached? %>
+        <%= image_tag @user.profile_picture, class: "avatar-img" %>
+      <% else %>
+        <div class="avatar-placeholder"><%= @user.name.first %></div>
+      <% end %>
+    </div>
+    <div class="header-details">
+      <h1><%= @user.name %></h1>
+      <span class="role-badge"><%= @user.userable_type %></span>
+    </div>
+  </div>
+
+  <div class="profile-body">
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">Email</span>
+        <span class="value"><%= @user.email %></span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Phone</span>
+        <span class="value"><%= @user.phone.presence || "Not provided" %></span>
+      </div>
+
+      <% if @user.userable.is_a?(Organizer) %>
+        <div class="info-item">
+          <span class="label">Website</span>
+          <span class="value"><%= link_to @user.userable.website, @user.userable.website, target: "_blank" %></span>
+        </div>
+        <div class="info-item">
+          <span class="label">Address</span>
+          <span class="value"><%= @user.userable.address %></span>
+        </div>
+      <% else %>
+        <div class="info-item">
+          <span class="label">Birth Date</span>
+          <span class="value"><%= @user.userable.date_of_birth&.strftime("%B %d, %Y") %></span>
+        </div>
+        <div class="info-item">
+          <span class="label">City</span>
+          <span class="value"><%= @user.userable.city %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="profile-actions">
+      <%= link_to "Edit Profile Info", edit_user_path(@user), class: "btn-primary" %>
+      <%= link_to "Change Password", edit_user_registration_path(change_password: true), class: "btn-outline" %>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 class Participant < ApplicationRecord
-    has_many :orders
+    has_many :orders, dependent: :destroy
     has_many :tickets, through: :orders
     has_one :user, as: :userable, dependent: :destroy
 

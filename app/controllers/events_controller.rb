@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   before_action :require_organizer, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:new, :create, :edit, :update, :destroy]
+  
 
 
   def index
@@ -21,8 +23,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    user=User.find(session[:user_id])
-    @organizer=user.userable
+    @organizer=@user.userable
     @event=Event.new(event_params)
     @event.organizer=@organizer
     
@@ -80,6 +81,9 @@ class EventsController < ApplicationController
 
   end
 
+
+  
+
   private
   def require_organizer
     unless current_user&.organizer?
@@ -93,6 +97,13 @@ class EventsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to events_path, alert: "Event not fount"
       return
+  end
+
+  def set_user
+    @user = User.find(session[:user_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "User not found"
+    return
   end
 
   def event_params

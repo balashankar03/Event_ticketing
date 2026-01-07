@@ -1,6 +1,19 @@
 ActiveAdmin.register Venue do
 
   permit_params :name, :address, :capacity, :city
+
+  batch_action :update_city, form: { city: :text } do |ids, inputs|
+    Venue.where(id: ids).update_all(city: inputs[:city])
+    redirect_to admin_venues_path, notice: "City updated for selected venues."
+  end
+
+  scope :capacity_above_500 do |venues|
+    venues.where('capacity > ?', 500)
+  end
+
+  scope :city_kochi do |venues|
+    venues.where(city: 'Kochi')
+  end
   
   index do
     selectable_column

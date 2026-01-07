@@ -1,5 +1,5 @@
 class Organizer < ApplicationRecord
-    has_many :events
+    has_many :events, dependent: :destroy
     has_one :user, as: :userable, dependent: :destroy
 
     def self.ransackable_attributes(auth_object = nil)

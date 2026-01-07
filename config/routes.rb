@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   
@@ -11,6 +12,14 @@ Rails.application.routes.draw do
 
   root "events#index"
   get 'landing', to: 'landings#index', as: :landing
+
+  namespace :api do
+    resources :events
+    resources :venues
+    resources :organizers
+    resources :participants
+    resources :orders
+  end
   
   resources :categories
   resources :venues

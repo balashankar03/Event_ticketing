@@ -1,32 +1,23 @@
 class OrganizersController < ApplicationController
+  #before_action:require_organizer
+
   def index
   end
 
   def show
-    @organizer=Organizer.find(params[:id])
+    @organizer=Organizer.find_by(id: params[:id])
+    if @organizer.nil?
+      redirect_to root_path, alert: "Organizer not found"
+      return
+    end
     @events=@organizer.events
-
   end
 
   def new
-    @organizer=Organizer.new
-    @user=User.new
 
   end
 
   def create
-    @organizer=Organizer.new(organizer_params)
-    @user=User.new(user_params)
-
-    @user.userable=@organizer
-
-    if @organizer.save && @user.save
-      session[:user_id]=@user.id
-      session[:role]="organizer"
-      redirect_to new_event_path
-    else
-      render :new, status: :unprocessable_entity
-    end
 
   end
 
@@ -39,6 +30,13 @@ class OrganizersController < ApplicationController
   def destroy
   end
 
+  def require_organizer
+  unless current_user&.userable_type == "Organizer" && current_user.userable_id.to_s == params[:id].to_s
+    redirect_to root_path, alert: "Unauthorized access. Please log in as the correct Organizer."
+  end
+ end
+
+
   private
   def organizer_params
     params.require(:organizer).permit(:website,:address)
@@ -46,5 +44,7 @@ class OrganizersController < ApplicationController
   def user_params
     params.require(:user).permit(:name,:email,:phone)
   end
+
+
 
 end

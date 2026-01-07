@@ -1,2 +1,78 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<div style="max-width: 600px; margin: 40px auto; font-family: sans-serif; border: 1px solid #ddd; border-radius: 8px; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+  
+  <div style="padding: 20px; border-bottom: 1px solid #eee; background-color: #f8f9fa; border-radius: 8px 8px 0 0;">
+    <h2 style="margin: 0; color: #333;">Edit Profile</h2>
+    <p style="margin: 5px 0 0; color: #666; font-size: 14px;">Updating details for <strong><%= @user.userable_type %></strong> account</p>
+  </div>
+
+  <div style="padding: 30px;">
+    <%= form_with(model: @user, local: true) do |f| %>
+      
+      <% if @user.errors.any? %>
+        <div style="background: #fff5f5; border-left: 4px solid #c53030; padding: 15px; margin-bottom: 20px;">
+          <p style="color: #c53030; font-weight: bold; margin: 0;"><%= pluralize(@user.errors.count, "error") %> prevented saving:</p>
+          <ul style="color: #c53030; font-size: 13px; margin: 5px 0 0; padding-left: 20px;">
+            <% @user.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div style="margin-bottom: 25px; display: flex; align-items: center; gap: 20px;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; background: #eee; border: 1px solid #ddd;">
+          <% if @user.profile_picture.attached? %>
+            <%= image_tag @user.profile_picture, style: "width: 100%; height: 100%; object-fit: cover;" %>
+          <% else %>
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999;">No Image</div>
+          <% end %>
+        </div>
+        <div>
+          <%= f.label :profile_picture, "Change Profile Photo", style: "display: block; font-weight: bold; margin-bottom: 5px;" %>
+          <%= f.file_field :profile_picture, style: "font-size: 13px;" %>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <%= f.label :name, style: "display: block; font-weight: bold; margin-bottom: 5px;" %>
+        <%= f.text_field :name, style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <%= f.label :phone, style: "display: block; font-weight: bold; margin-bottom: 5px;" %>
+        <%= f.text_field :phone, style: "width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;" %>
+      </div>
+
+      <div style="background: #f1f5f9; padding: 20px; border-radius: 6px; margin-bottom: 25px;">
+        <h4 style="margin: 0 0 15px 0; font-size: 14px; color: #475569; text-transform: uppercase;"><%= @user.userable_type %> Specifics</h4>
+        
+        <%= f.fields_for :userable do |ff| %>
+          <% if @user.userable.is_a?(Participant) %>
+            <div style="margin-bottom: 15px;">
+              <%= ff.label :city, style: "display: block; margin-bottom: 5px;" %>
+              <%= ff.text_field :city, style: "width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;" %>
+            </div>
+            <div style="margin-bottom: 0;">
+              <%= ff.label :date_of_birth, style: "display: block; margin-bottom: 5px;" %>
+              <%= ff.date_field :date_of_birth, style: "width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;" %>
+            </div>
+
+          <% elsif @user.userable.is_a?(Organizer) %>
+            <div style="margin-bottom: 15px;">
+              <%= ff.label :website, style: "display: block; margin-bottom: 5px;" %>
+              <%= ff.url_field :website, style: "width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;" %>
+            </div>
+            <div style="margin-bottom: 0;">
+              <%= ff.label :address, style: "display: block; margin-bottom: 5px;" %>
+              <%= ff.text_area :address, rows: 3, style: "width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px;" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <%= f.submit "Save Profile", style: "background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" %>
+        <%= link_to "Cancel", user_path(@user), style: "color: #666; text-decoration: none; font-size: 14px;" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

@@ -18,6 +18,20 @@
   </head>
 
   <body>
+  <style>
+    .profile-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;    
+      border: 2px solid #ddd;
+      transition: opacity 0.2s;
+    }
+
+    .profile-circle:hover {
+      opacity: 0.8;
+    }
+  </style>
 
   <% flash.each do |type, msg| %>
     <div style="padding: 10px; margin: 10px; border-radius: 5px; background: <%= type == 'alert' ? '#f8d7da' : '#d4edda' %>; color: <%= type == 'alert' ? '#721c24' : '#155724' %>;">
@@ -71,7 +85,7 @@
       <% elsif current_user.participant? %>
         <%= link_to "My Orders", participant_orders_path(current_user.userable), style: "text-decoration: none; color: #636e72; font-weight: 500; font-size: 0.95rem;" %>
       <% end %>
-      <span style="font-size: 0.9rem; color: #2d3436;">Hello, <strong><%= current_user.name %></strong></span>
+    <%= link_to image_tag(current_user.profile_picture_url, class: "profile-circle"), user_path(current_user) %>
       <%= button_to "Logout", destroy_user_session_path, method: :delete, style: "background: #d63031; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600;" %>
     <% else %>
       <%= link_to "Login", new_user_session_path, style: "text-decoration: none; color: #0984e3; font-weight: 500; font-size: 0.95rem;" %>

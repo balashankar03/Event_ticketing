@@ -27,8 +27,8 @@ end
 
 filter :name
 filter :venue
-filter :organizer
-filter :datetime
+filter :organizer_id, as: :string, label: "Organizer ID Number"
+filter :datetime, as: :datetime_picker
 
 show do
   attributes_table do

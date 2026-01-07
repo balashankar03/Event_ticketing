@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+
+  before_action :require_participant, only: [:index]
   
   def index
     @participant = Participant.find_by(id: params[:participant_id])
@@ -18,17 +20,31 @@ class OrdersController < ApplicationController
   end
 
   def new
+
   end
 
   def create
+
   end
 
   def edit
+
   end
 
   def update
+
   end
 
   def destroy
+    
   end
+
+    def require_participant
+    if current_user.nil? || !current_user.userable_type.eql?("Participant") || current_user.userable.id.to_s != params[:participant_id]
+      redirect_to root_path, alert: "Unauthorized"
+      return
+    end
+  end
+
+
 end

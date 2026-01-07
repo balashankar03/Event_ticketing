@@ -3,12 +3,26 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  belongs_to :userable, polymorphic: true, optional: true
+  belongs_to :userable, polymorphic: true, optional: true, dependent: :destroy
   accepts_nested_attributes_for :userable
+
+  has_many :access_grants,
+           class_name: 'Doorkeeper::AccessGrant',
+           foreign_key: :resource_owner_id,
+           dependent: :delete_all 
+
+  has_many :access_tokens,
+           class_name: 'Doorkeeper::AccessToken',
+           foreign_key: :resource_owner_id,
+           dependent: :delete_all
+
+
   validates :email, presence: true
   validates :email, uniqueness: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :userable_type, inclusion: {in: %w(Organizer Participant)}
+
+  has_one_attached :profile_picture
 
   before_save :downcase_email
 
@@ -27,6 +41,15 @@ class User < ApplicationRecord
   def participant?
     userable_type == "Participant"
   end
+
+  def profile_picture_url
+    if profile_picture.attached?
+      profile_picture
+    else
+      "default-avatar.png"
+    end
+  end
+
 
   private
 

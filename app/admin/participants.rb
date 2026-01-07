@@ -30,6 +30,16 @@ ActiveAdmin.register User, as: "Participant" do
       super
     end
 
+    def create
+      @user=User.new(params[:user].except(:userable_attributes).permit(:name, :email, :phone, :password, :password_confirmation, :userable_type ))
+      @user.userable=Participant.new(params[:user][:userable_attributes].permit(:date_of_birth, :city, :gender))
+      if @user.save
+        redirect_to admin_participants_path, notice: "Participant created successfully!"
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def update
       if params[:user][:password].blank?
         params[:user].delete(:password)

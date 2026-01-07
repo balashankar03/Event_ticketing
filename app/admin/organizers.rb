@@ -1,7 +1,7 @@
 ActiveAdmin.register User, as: "Organizer" do
   menu label: "Organizers"
 
-  permit_params :name, :email, :phone, :password, :password_confirmation, userable_attributes: [:id, :website, :address]
+  permit_params :name, :email, :phone, :password, :password_confirmation, :userable_type, userable_attributes: [:id, :website, :address]
   
   filter :name
   filter :email
@@ -23,10 +23,20 @@ ActiveAdmin.register User, as: "Organizer" do
       super
     end
 
+    def create
+      @user=User.new(params[:user].except(:userable_attributes).permit(:name, :email, :phone, :password, :password_confirmation, :userable_type ))
+      @user.userable=Organizer.new(params[:user][:userable_attributes].permit(:website, :address))
+      if @user.save
+        redirect_to admin_organizers_path, notice: "Organizer created successfully!"
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
+
     def update
-      if params[:organizer][:password].blank? && params[:organizer][:password_confirmation].blank?
-        params[:organizer].delete(:password)
-        params[:organizer].delete(:password_confirmation)
+      if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+        params[:user].delete(:password)
+        params[:user].delete(:password_confirmation)
       end
       super
     end

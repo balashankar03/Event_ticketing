@@ -10,6 +10,12 @@ ActiveAdmin.register User do
     end
   end
 
+  scope "Missing phone" do |users|
+    users.where(phone: [nil, ''])
+  end
+
+  
+
   filter :name
   filter :email
   filter :phone

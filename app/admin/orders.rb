@@ -2,6 +2,7 @@ ActiveAdmin.register Order do
 
   permit_params :status
 
+
   index do
     selectable_column
     id_column
