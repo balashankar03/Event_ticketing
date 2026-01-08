@@ -65,3 +65,7 @@ group :test do
 end
 
 gem "doorkeeper", "~> 5.8"
+
+gem "rabl", "~> 0.17.0"
+
+gem "rabl-rails", "~> 0.6.2"

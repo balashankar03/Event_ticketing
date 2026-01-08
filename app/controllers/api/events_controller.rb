@@ -17,9 +17,9 @@ module Api
             @event=Event.new(event_params)
             @event.organizer=organizer
             if @event.save
-                render json: @event, status: :created
+                render 'show', status: :created 
             else
-                render json: {errors: @event.errors.full_messages}, status: :unprocessable_entity
+                render json: { errors: @event.errors.full_messages }, status: :unprocessable_entity
             end
         end
 

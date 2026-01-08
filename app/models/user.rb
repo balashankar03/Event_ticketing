@@ -17,9 +17,6 @@ class User < ApplicationRecord
            dependent: :delete_all
 
 
-  validates :email, presence: true
-  validates :email, uniqueness: true
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :userable_type, inclusion: {in: %w(Organizer Participant)}
 
   has_one_attached :profile_picture
