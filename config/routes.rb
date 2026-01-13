@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :participant do
+    get "dashboards/show"
+  end
+  namespace :organizer do
+    get "dashboards/show"
+  end
   use_doorkeeper
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -14,12 +20,30 @@ Rails.application.routes.draw do
   get 'landing', to: 'landings#index', as: :landing
 
   namespace :api do
+    get 'users/me', to: 'users#me'
+    patch 'users/me', to: 'users#update'
+    delete 'users/me', to: 'users#destroy'
+    get "events/:id/attendees", to: 'events#attendees'
+    get "events/upcoming", to: "events#upcoming"
+    get "/my-tickets", to: "orders#mytickets"
+
+    #POST /orders/{id}/cancel
+    #GET /events/{id}/availability
+    get "venues/:venue_id/events", to: "venues#eventlist"
     resources :events
     resources :venues
     resources :organizers
     resources :participants
     resources :orders
   end
+
+  namespace :organizer do
+    resources :dashboards
+  end
+  namespace :participant do
+    resources :dashboards
+  end
+
   
   resources :categories
   resources :venues
@@ -33,6 +57,13 @@ Rails.application.routes.draw do
     resources :ticket_tiers, only: [:index, :create, :update, :new]
     resources :bookings, only: [:create]
   end
+
+  get 'login', to: "api_logins#new", as: :api_login
+  post "login", to: "api_logins#create"
+  delete "login", to: "api_logins#destroy", as: :api_logout
+
+  
+
 
   resources :participants do
     resources :orders, only: [:index, :show]

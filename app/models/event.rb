@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :tickets, through: :ticket_tiers
   has_and_belongs_to_many :categories
+  has_many :participants, through: :orders
 
   has_one_attached :image
   

@@ -66,6 +66,11 @@ end
 
 gem "doorkeeper", "~> 5.8"
 
-gem "rabl", "~> 0.17.0"
 
 gem "rabl-rails", "~> 0.6.2"
+
+gem "rabl", "~> 0.17.0"
+
+gem "oj", "~> 3.16"
+
+gem "httparty", "~> 0.24.0"

@@ -10,10 +10,6 @@ module Api
             @organizer=Organizer.find_by(id: params[:id])
             render json: @organizer.as_json(include: :user)
         end
-        
-
-
-
 
 
     end

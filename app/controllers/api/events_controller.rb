@@ -1,14 +1,14 @@
 module Api
     class EventsController <Api::BaseController
+        before_action :api_authorize_organizer, only: [:create, :update, :destroy]
+        before_action :set_event, except: [:index, :upcoming]
         
         def index
-            @event=Event.all
-            render json: @event
+            @events=Event.all
         end
 
         def show
-            @event=Event.find_by(id: params[:id])
-            render json: @event
+            @event
         end
 
         def create
@@ -17,6 +17,7 @@ module Api
             @event=Event.new(event_params)
             @event.organizer=organizer
             if @event.save
+                @event.reload
                 render 'show', status: :created 
             else
                 render json: { errors: @event.errors.full_messages }, status: :unprocessable_entity
@@ -24,16 +25,30 @@ module Api
         end
 
         def update
-            @event=Event.find_by(id: params[:id])
-            if @event.nil?
-                render json: {error: "Event not found"}, status: :not_found and return
-            end
-
             if @event.update(event_params)
-                render json: @event.as_json(include: :ticket_tiers), status: :ok
+                render 'show', status: :ok
             else
                 render json: {errors: @event.errors.full_messages}, status: :unprocessable_entity
             end
+        end
+
+        def destroy
+            if @event.destroy
+                render json: {message: "Event deleted successfully"}, status: :ok
+            else
+                render json: {error: "Failed to delete event"}, status: :unprocessable_entity
+            end
+        end
+
+        def attendees
+            @participants=@event.participants
+            render 'participants', status: :ok
+
+        end
+
+        def upcoming
+            @events=Event.where('datetime > ?',Time.now).order(datetime: :asc)
+            render 'index', status: :ok
         end
 
         private
@@ -41,6 +56,14 @@ module Api
         def event_params
             params.require(:event).permit(:name,:description, :venue_id, :datetime, ticket_tiers_attributes: [:id, :name, :price, :remaining, :_destroy], category_ids: [])
         end
+
+        def set_event
+            @event=Event.find_by(id: params[:id])
+            if @event.nil?
+                render json: {error: "Event not found"}, status: :not_found and return
+            end
+        end
+
 
     end
 end

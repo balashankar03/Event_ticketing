@@ -9,6 +9,17 @@ class ApplicationController < ActionController::Base
     user_signed_in? && current_user.userable_type.downcase=="participant"
   end
 
+  def api_get(path)
+    token = session[:access_token] 
+
+    HTTParty.get("http://localhost:3000/api/#{path}", 
+      headers: { 
+        "Authorization" => "Bearer #{token}",
+        "Content-Type" => "application/json" 
+      }
+    )
+  end
+
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :phone, :userable_type, userable_attributes: [:city, :date_of_birth, :gender, :website, :address]])

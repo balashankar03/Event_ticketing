@@ -6,15 +6,31 @@ Doorkeeper.configure do
   orm :active_record
 
   # This block will be called to check whether the resource owner is authenticated or not.
-  resource_owner_authenticator do
-    
-    current_user || begin
-    session[:user_return_to]=request.fullpath
+  # Search for this line in your doorkeeper.rb
+  grant_flows %w[password]
 
-    redirect_to(new_user_session_url)
+  resource_owner_from_credentials do |_routes|
+    user=User.find_for_database_authentication(email: params[:username])
 
+    if user&.valid_password?(params[:password])
+      user
+    else
+      nil
+    end
   end
-end
+
+ # resource_owner_authenticator do
+    
+ #   current_user || begin
+ #   session[:user_return_to]=request.fullpath
+ #
+ #   redirect_to(new_user_session_url)
+ #
+ #   end
+ # end
+
+  skip_authorization { true }
+
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
