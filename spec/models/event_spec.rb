@@ -14,7 +14,7 @@ RSpec.describe Event, type: :model do
 
     it "has many ticket_tiers" do
       create_list(:ticket_tier, 2, event: event)
-      expect(event.ticket_tiers.count).to eq(1)
+      expect(event.ticket_tiers.count).to eq(2)
     end
 
     it "has and belongs to many categories" do
@@ -45,14 +45,12 @@ RSpec.describe Event, type: :model do
       expect(event).not_to be_valid
     end
 
-    it "is invalid with past date and time" do
-
   end
 
 
   describe "Custom Logic" do
     it "is identified as a past event if the date has passed" do
-      event = create(:event, :past)
+      event = build(:event, :past)
       expect(event).not_to be_valid
       expect(event.errors[:datetime]).to include("can't be in the past")
     end
@@ -96,5 +94,21 @@ RSpec.describe Event, type: :model do
     
     expect(results).to be_empty
   end
-end
+  end
+
+  describe ".ransackable_attributes" do
+    it "returns a list of searchable columns" do
+        expected_attributes = ["id", "name", "created_at", "updated_at"]
+        expect(Category.ransackable_attributes).to match_array(expected_attributes)
+  end
+    end
+
+  describe ".ransackable_associations" do
+    it "returns a list of searchable columns" do
+        expected_associations = ["events"]
+        expect(Category.ransackable_associations).to match_array(expected_associations)
+    end
+  end
+
+
 end

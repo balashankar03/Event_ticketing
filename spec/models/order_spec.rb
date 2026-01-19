@@ -29,17 +29,18 @@ RSpec.describe Order, type: :model do
     end
   end
 
-  #describe "Validations" do
-   # it "is valid with a status and associations" do
-      
-    #  expect(order).to be_valid
-    #end
+  describe ".ransackable_attributes" do
+    it "returns a list of searchable columns" do
+        expected_attributes = ["id", "status", "participant_id", "created_at", "updated_at"]
+        expect(Orders.ransackable_attributes).to match_array(expected_attributes)
+    end
+  end
 
-    #it "is invalid without a status" do
-      
-     # order.status = nil
-      #expect(order).not_to be_valid
-    #end
-  #end
+  describe ".ransackable_associations" do
+    it "returns a list of searchable columns" do
+        expected_associations = ["events", "participant", "tickets"]
+        expect(Orders.ransackable_associations).to match_array(expected_associations)
+    end
+  end
   
 end

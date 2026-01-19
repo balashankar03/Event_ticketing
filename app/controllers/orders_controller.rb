@@ -19,25 +19,7 @@ class OrdersController < ApplicationController
     @tickets=@order.tickets
   end
 
-  def new
 
-  end
-
-  def create
-
-  end
-
-  def edit
-
-  end
-
-  def update
-
-  end
-
-  def destroy
-    
-  end
 
     def require_participant
     if current_user.nil? || !current_user.userable_type.eql?("Participant") || current_user.userable.id.to_s != params[:participant_id]

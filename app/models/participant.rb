@@ -3,6 +3,7 @@ class Participant < ApplicationRecord
     has_many :tickets, through: :orders
     has_one :user, as: :userable, dependent: :destroy
     has_many :events, through: :orders
+    validates :city, :gender, presence: true
 
     def self.ransackable_attributes(auth_object = nil)
     ["id","date_of_birth","city","gender","created_at", "updated_at"]

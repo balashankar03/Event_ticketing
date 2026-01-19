@@ -1,7 +1,7 @@
 module Api
     class VenuesController <Api::BaseController
 
-        before_action :set_venue, only: [:show, :eventlist]
+        before_action :set_venue, only: [:show, :eventlist, :update]
         
         def index
             @venues=Venue.all
@@ -9,7 +9,6 @@ module Api
         end
 
         def show
-            @venue=Venue.find_by(id: params[:id])
             render json: @venue
         end
 
@@ -18,10 +17,19 @@ module Api
             if @venue.save
                 render json: @venue, status: :created 
             else
-                render json: { errors: @event.errors.full_messages }, status: :unprocessable_entity
+                render json: { errors: @venue.errors.full_messages }, status: :unprocessable_entity
             end          
 
         end
+
+        def update
+            if @venue.update(venue_params)
+                render json: @venue, status: :ok
+            else
+                render json: { errors: @venue.errors.full_messages }, status: :unprocessable_entity
+            end
+        end
+
 
         def eventlist
             @events=@venue.events
@@ -39,7 +47,7 @@ module Api
         end
 
         def set_venue
-            @venue=Venue.find_by(id: params[:venue_id])
+            @venue=Venue.find_by(id: params[:id])
             if @venue.nil?
                 render json: {error: "Venue not found"}, status: :not_found and return
             end

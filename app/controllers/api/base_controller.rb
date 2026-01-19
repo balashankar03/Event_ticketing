@@ -13,6 +13,7 @@ module Api
             unless user.organizer?
             render json: { error: "Forbidden", message: "Organizer role required" }, status: :forbidden and return
             end
+            @current_organizer= user.userable
         end
 
         def api_authorize_participant!
@@ -20,6 +21,7 @@ module Api
             unless user.participant?
             render json: { error: "Forbidden", message: "Participant role required" }, status: :forbidden and return
             end
+            @current_participant=user.userable
         end
 
     end

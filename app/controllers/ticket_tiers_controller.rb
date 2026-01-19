@@ -15,15 +15,5 @@ class TicketTiersController < ApplicationController
 
   def create
     @event=Event.find(params[:event_id])
-    
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
   end
 end

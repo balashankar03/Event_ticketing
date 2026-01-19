@@ -1,7 +1,7 @@
 module Api
     class EventsController <Api::BaseController
-        before_action :api_authorize_organizer, only: [:create, :update, :destroy]
-        before_action :set_event, except: [:index, :upcoming]
+        before_action :api_authorize_organizer!, only: [:create, :update, :destroy]
+        before_action :set_event, only: [:show, :update, :destroy, :attendees, :stats, :validate_ticket, :availability]
         
         def index
             @events=Event.all
@@ -12,8 +12,7 @@ module Api
         end
 
         def create
-            user=User.where(userable_type: "Organizer").first
-            organizer=user.userable
+            organizer=@current_organizer
             @event=Event.new(event_params)
             @event.organizer=organizer
             if @event.save
@@ -51,6 +50,45 @@ module Api
             render 'index', status: :ok
         end
 
+        def stats
+            stats = {
+                total_capacity: @event.ticket_tiers.sum(:remaining) + @event.tickets.count,
+                tickets_sold: @event.tickets.count,
+                revenue: @event.tickets.joins(:ticket_tier).sum("ticket_tiers.price").to_f,
+                tiers: @event.ticket_tiers.map { |t| { name: t.name, sold: t.tickets.count, remaining: t.remaining } }
+            }
+            render json: stats
+        end
+
+        def validate_ticket
+            ticket = @event.tickets.find_by(serial_no: params[:serial_no])
+            
+            if ticket && ticket.order.status != "cancelled"
+                render json: { valid: true, participant: ticket.order.participant.user.name, tier: ticket.ticket_tier.name }
+            else
+                render json: { valid: false, error: "Invalid or cancelled ticket" }, status: :not_found
+            end
+        end
+
+        def availability
+            availability_data = @event.ticket_tiers.map do |tier|
+                {
+                tier_id: tier.id,
+                name: tier.name,
+                price: tier.price.to_f,
+                remaining: tier.remaining,
+                status: tier.remaining > 0 ? "available" : "sold_out"
+                }
+            end
+
+            render json: {
+                event_id: @event.id,
+                event_name: @event.name,
+                total_remaining: @event.ticket_tiers.sum(:remaining),
+                tiers: availability_data
+            }, status: :ok
+            end
+
         private
 
         def event_params
@@ -63,6 +101,7 @@ module Api
                 render json: {error: "Event not found"}, status: :not_found and return
             end
         end
+
 
 
     end

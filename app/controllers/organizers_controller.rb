@@ -13,22 +13,7 @@ class OrganizersController < ApplicationController
     @events=@organizer.events
   end
 
-  def new
-
-  end
-
-  def create
-
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
-  end
+ 
 
   def require_organizer
   unless current_user&.userable_type == "Organizer" && current_user.userable_id.to_s == params[:id].to_s

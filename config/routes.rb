@@ -21,15 +21,18 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'users/me', to: 'users#me'
+    post 'users', to: 'users#create'
     patch 'users/me', to: 'users#update'
     delete 'users/me', to: 'users#destroy'
     get "events/:id/attendees", to: 'events#attendees'
     get "events/upcoming", to: "events#upcoming"
+    get "events/:id/stats", to: "events#stats"
+    post "events/:id/validate_ticket", to: "events#validate_ticket"
+    get "events/:id/availability", to: "events#availability"
     get "/my-tickets", to: "orders#mytickets"
-
-    #POST /orders/{id}/cancel
-    #GET /events/{id}/availability
-    get "venues/:venue_id/events", to: "venues#eventlist"
+    patch "orders/:id/cancel", to: "orders#cancel"
+    get "events/:id/availability", to: "events#availablitiy"
+    get "venues/:id/events", to: "venues#eventlist"
     resources :events
     resources :venues
     resources :organizers

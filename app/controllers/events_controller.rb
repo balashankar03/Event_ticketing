@@ -100,7 +100,7 @@ class EventsController < ApplicationController
   end
 
   def set_user
-    @user = User.find(session[:user_id])
+    @user = current_user
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: "User not found"
     return

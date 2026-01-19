@@ -4,7 +4,6 @@ FactoryBot.define do
     sequence(:name) { |n| "Ticket Tier #{n}" }
     
     price     { Faker::Commerce.price(range: 10..100) }
-    capacity  { 100 }
     remaining { 100 }
     available { true }
 

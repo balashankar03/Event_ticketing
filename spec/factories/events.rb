@@ -1,11 +1,11 @@
 FactoryBot.define do
     factory :event do
-        title       { Faker::Kpop.events } 
+        name { Faker::Lorem.words(number: 3).join(' ').titleize } 
         description { Faker::Lorem.paragraph }
         datetime    { Faker::Time.forward(days: 30, period: :evening)}
 
         association :venue
-        association :organizer, factory: :organizer, traits: [:with_user]
+        association :organizer, factory: [:organizer, :with_user]
 
         trait :past do
             datetime { Faker::Time.backward(days: 10) }
@@ -13,7 +13,7 @@ FactoryBot.define do
 
         trait :sold_out do
             after(:create) do |event|
-                create(:ticket_tiers, event: event, remaining: 0, available: false)
+                create(:ticket_tier, event: event, remaining: 0, available: false)
             end
         end
 
