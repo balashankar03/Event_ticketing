@@ -63,4 +63,19 @@ RSpec.describe User, type: :model do
       expect(user.email).to eq("hello@world.com")
     end
   end
+
+   describe ".ransackable_attributes" do
+    it "returns a list of searchable columns" do
+        expected_attributes = ["id", "name", "email", "phone", "created_at", "updated_at", "userable_type", "userable_id"]
+        expect(User.ransackable_attributes).to match_array(expected_attributes)
+    end
+  end
+
+  describe ".ransackable_associations" do
+    it "returns a list of searchable columns" do
+        expected_associations =["userable"]
+        expect(User.ransackable_associations).to match_array(expected_associations)
+    end
+  end
+
 end

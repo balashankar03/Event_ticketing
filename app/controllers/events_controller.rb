@@ -115,7 +115,7 @@ class EventsController < ApplicationController
   end 
 
   def venue_params_present?
-    params[:venue].values.any?(&:present?)
+    params[:venue]&.values&.any?(&:present?)
   end
 
 

@@ -31,15 +31,15 @@ RSpec.describe Order, type: :model do
 
   describe ".ransackable_attributes" do
     it "returns a list of searchable columns" do
-        expected_attributes = ["id", "status", "participant_id", "created_at", "updated_at"]
-        expect(Orders.ransackable_attributes).to match_array(expected_attributes)
+        expected_attributes = ["id", "status","event_id", "participant_id", "created_at", "updated_at"]
+        expect(Order.ransackable_attributes).to match_array(expected_attributes)
     end
   end
 
   describe ".ransackable_associations" do
     it "returns a list of searchable columns" do
-        expected_associations = ["events", "participant", "tickets"]
-        expect(Orders.ransackable_associations).to match_array(expected_associations)
+        expected_associations = ["event", "participant", "tickets"]
+        expect(Order.ransackable_associations).to match_array(expected_associations)
     end
   end
   

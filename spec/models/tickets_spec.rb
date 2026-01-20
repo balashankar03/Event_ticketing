@@ -51,4 +51,21 @@ RSpec.describe Ticket, type: :model do
       expect(second_ticket.errors[:serial_no]).to include("has already been taken")
     end
   end
+
+  describe ".ransackable_attributes" do
+    it "returns the allowed searchable columns" do
+      expected_attributes = ["id","order_id","ticket_tier_id", "serial_no", "seat_info", "created_at", "updated_at"]
+      expect(Ticket.ransackable_attributes).to match_array(expected_attributes)
+    end
+  end
+
+  describe ".ransackable_associations" do
+    it "returns the allowed searchable associations" do
+      expected_associations = ["order", "ticket_tier", "event"]
+      expect(Ticket.ransackable_associations).to match_array(expected_associations)
+    end
+    end
+
+
+
 end

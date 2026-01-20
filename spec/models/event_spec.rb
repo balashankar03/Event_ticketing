@@ -98,15 +98,15 @@ RSpec.describe Event, type: :model do
 
   describe ".ransackable_attributes" do
     it "returns a list of searchable columns" do
-        expected_attributes = ["id", "name", "created_at", "updated_at"]
-        expect(Category.ransackable_attributes).to match_array(expected_attributes)
+        expected_attributes = ["id", "name", "datetime", "description","organizer_id", "venue_id","created_at", "updated_at"]
+        expect(Event.ransackable_attributes).to match_array(expected_attributes)
   end
     end
 
   describe ".ransackable_associations" do
     it "returns a list of searchable columns" do
-        expected_associations = ["events"]
-        expect(Category.ransackable_associations).to match_array(expected_associations)
+        expected_associations = ["categories", "image_attachment", "image_blob", "orders", "organizer", "ticket_tiers", "tickets", "venue"]
+        expect(Event.ransackable_associations).to match_array(expected_associations)
     end
   end
 

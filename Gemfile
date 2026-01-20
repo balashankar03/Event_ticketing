@@ -79,3 +79,5 @@ gem "rabl", "~> 0.17.0"
 gem "oj", "~> 3.16"
 
 gem "httparty", "~> 0.24.0"
+
+gem "webmock", "~> 3.26"

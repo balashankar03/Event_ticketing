@@ -30,6 +30,21 @@ RSpec.describe "Events", type: :request do
     end
   end
 
+  describe "GET /new" do
+    it "assigns new event and venue, and build ticket tiers" do
+      get new_event_path
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET /edit" do
+    it "sets venue and ticket tier for updation" do
+      get edit_event_path(event)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+  
+
   describe "POST /create" do
 
   let(:organizer) { create(:organizer, :with_user) }
@@ -91,6 +106,31 @@ RSpec.describe "Events", type: :request do
   end
 end
 
+
+
+  describe "PATCH /update" do
+    let!(:event) { create(:event,organizer: organizer)}
+    it "updates event attributes " do
+    patch event_path(event), params: { event: { name: "My Name" } }
+    expect(event.reload.name).to eq("My Name")
+    end
+
+    context "updating with a NEW venue" do
+    it "creates a new venue and assigns it to the existing event" do
+      expect {
+        patch event_path(event), params: { 
+          event: { venue_id: "" }, 
+          venue: { name: "Different Place", address: "123 St", city: "NY", capacity: 100 } 
+        }
+      }.to change(Venue, :count).by(1)
+      event.reload
+      expect(event.venue.name).to eq("Different Place")
+     end
+    end
+  end
+  
+
+
   describe "DELETE /destroy" do
     it "removes the event and redirects" do
       event_to_delete = create(:event, organizer: organizer)
@@ -100,4 +140,5 @@ end
       expect(response).to redirect_to(events_path)
     end
   end
+
 end

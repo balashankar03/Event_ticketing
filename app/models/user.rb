@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
 
   validates :userable_type, inclusion: {in: %w(Organizer Participant)}
-
+  validates :name, presence: true
   has_one_attached :profile_picture
 
   before_save :downcase_email

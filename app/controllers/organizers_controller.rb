@@ -1,5 +1,5 @@
 class OrganizersController < ApplicationController
-  #before_action:require_organizer
+  before_action:require_organizer
 
   def index
   end
@@ -12,8 +12,6 @@ class OrganizersController < ApplicationController
     end
     @events=@organizer.events
   end
-
- 
 
   def require_organizer
   unless current_user&.userable_type == "Organizer" && current_user.userable_id.to_s == params[:id].to_s
